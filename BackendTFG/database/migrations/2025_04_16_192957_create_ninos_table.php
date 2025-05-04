@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ninos', function (Blueprint $table) {
+        Schema::create('ninyos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
             $table->string('curso');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->boolean('desactivado')->default(false);
             $table->timestamps();
 
-            $table->foreign('correo_id')->references('email')->on('usuarios')->onDelete('set null');
+            $table->foreign('correo_id')->references('email')->on('users')->onDelete('set null');
         });
     }
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ninos');
+        Schema::dropIfExists('ninyos');
     }
 };

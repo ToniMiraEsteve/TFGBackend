@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('usuarios');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamp('fecha')->useCurrent();
             $table->text('contenido');
             $table->enum('visibilidad', ['activo', 'inactivo'])->default('activo');

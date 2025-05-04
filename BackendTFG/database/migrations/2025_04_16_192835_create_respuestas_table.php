@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('respuestas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id')->constrained('posts');
-            $table->foreignId('user_id')->constrained('usuarios');
+            $table->foreignId('user_id')->constrained('users');
             $table->text('contenido');
             $table->timestamp('fecha')->useCurrent();
             $table->boolean('desactivado')->default(false);

@@ -9,7 +9,7 @@ class PDF extends Model
 {
 
     use HasFactory;
-
+    protected $table = 'pdfs';
     protected $fillable = [
         'user_id',
         'datos_form',

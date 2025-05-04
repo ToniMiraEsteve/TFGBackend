@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pdfs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('usuarios')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text('datos_form');
             $table->string('ruta_pdf');
             $table->timestamp('fecha_envio')->nullable();

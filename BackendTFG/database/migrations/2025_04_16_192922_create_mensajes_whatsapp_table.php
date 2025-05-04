@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('mensajes_whatsapp', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('usuarios');
+            $table->foreignId('user_id')->constrained('users');
             $table->string('numero_destino');
             $table->text('mensaje');
             $table->timestamp('fecha_envio')->nullable();
