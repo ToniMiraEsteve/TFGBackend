@@ -15,11 +15,10 @@ class UsuarioResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'       => $this->id,
+            'id' => $this->id,
             'username' => $this->username,
-            'email'    => $this->email,
-            'rol'      => $this->rol,
-            // Nunca incluyas 'password' en recursos JSON por seguridad.
+            'email' => $this->email,
+            'rol' => $this->rol,
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Enums\Rol;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -24,11 +25,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'username' => fake()->name(),
+            'username' => fake()->userName(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'nombre' => fake()->firstName(),
+            'apellido' => fake()->lastName(),
             'password' => bcrypt('password'),
-            'rol' => $this->faker->randomElement(['admin', 'junta', 'monitor','usuario']),
+            'rol' => $this->faker->randomElement(Rol::values()),
             'remember_token' => Str::random(10),
         ];
     }

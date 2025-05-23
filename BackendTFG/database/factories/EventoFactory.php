@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Enums\Rol;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Evento>
@@ -26,7 +27,7 @@ class EventoFactory extends Factory
             'fecha' => $fecha,
             'hora_inicio' => $horaInicio,
             'hora_fin' => $horaFin,
-            'rol_destinatario' => $this->faker->randomElement(['admin', 'cliente', 'monitor']),
+            'rol_destinatario' => $this->faker->randomElement(Rol::values()),           
             'color' => $this->faker->hexColor,
         ];
     }

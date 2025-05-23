@@ -24,6 +24,6 @@ class Ninyo extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'correo_id', 'email');
+        return $this->belongsTo(User::class, 'correo_id', 'email');
     }
 }

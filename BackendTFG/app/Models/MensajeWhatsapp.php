@@ -22,6 +22,6 @@ class MensajeWhatsapp extends Model
     ];
 
     public function usuario(){
-        return $this->belongsTo(Usuario::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
