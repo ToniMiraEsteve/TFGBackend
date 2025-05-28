@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\RespuestaController;
 
 
 Route::post('login', [AuthController::class, 'login'])->middleware('api');
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum','api');
 Route::post('register', [AuthController::class, 'register'])->middleware('api');
 
 Route::middleware(['auth:sanctum','api'])->group( function () {    
