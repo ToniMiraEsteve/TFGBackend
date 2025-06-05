@@ -24,6 +24,10 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $rolesSinAdmin = array_filter(Rol::values(), function ($rol) {
+            return $rol !== Rol::Admin->value;
+        });
+
         return [
             'username' => fake()->userName(),
             'email' => fake()->unique()->safeEmail(),
@@ -31,7 +35,7 @@ class UserFactory extends Factory
             'nombre' => fake()->firstName(),
             'apellido' => fake()->lastName(),
             'password' => bcrypt('password'),
-            'rol' => $this->faker->randomElement(Rol::values()),
+            'rol' => $this->faker->randomElement($rolesSinAdmin),
             'remember_token' => Str::random(10),
         ];
     }

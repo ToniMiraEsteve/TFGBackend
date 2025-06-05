@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text('datos_form');
-            $table->string('ruta_pdf');
+            $table->string('ruta_pdf')->nullable();
             $table->timestamp('fecha_envio')->nullable();
             $table->enum('estado', ['pendiente', 'enviado', 'fallido'])->default('pendiente');
             $table->boolean('desactivado')->default(false);

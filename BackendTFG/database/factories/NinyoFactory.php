@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use App\Enums\Curso;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ninyo>
@@ -21,9 +22,7 @@ class NinyoFactory extends Factory
 
         return [
             'nombre' => $this->faker->firstName,
-            'curso' => $this->faker->randomElement(['5º Primaria','6º Primaria','1º ESO','2º ESO','3º ESO','4º ESO',]),   
-            'ubicacion_sip' => $this->faker->uuid,
-            'ubicacion_fotos' => $this->faker->imageUrl(),
+            'curso' => $this->faker->randomElement(Curso::values()),
             'numero_contacto' => $this->faker->phoneNumber,
             'nombre_padres' => $this->faker->name,
             'enfermedades_alergias' => $this->faker->boolean(30) ? $this->faker->sentence : null,

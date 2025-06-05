@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\StorePDFRequest;
 use App\Http\Requests\UpdatePDFRequest;
 use App\Models\PDF;
-use Illuminate\Http\Request;
 use App\Http\Resources\PDFResource;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf as DomPDF;
 
 class PDFController extends BaseController
 {
@@ -23,12 +24,40 @@ class PDFController extends BaseController
      */
     public function store(StorePDFRequest $request)
     {
-        try{
-            $validated = $request->validated();
-            $alert = PDF::create($validated);
-            return $this->sendResponse(new PDFResource($alert), 201);
-        }catch (\Exception $e) {
-            return $this->sendError(['message' => $e->getMessage()], $e->status ?? 400);
+        try {
+            $datos = $request->validated();
+    
+            $datosForm = $datos['datos_form'];
+            $pdfHtml = DomPDF::loadView('pdf.pdf_form', $datosForm);
+    
+            $nombreArchivo = 'pdf_' . uniqid() . '.pdf';
+            $ruta = 'pdfs/' . $nombreArchivo;
+    
+            // Guardar archivo físico
+            Storage::disk('public')->put($ruta, $pdfHtml->output());
+    
+            // Guardar en base de datos
+            $pdfModel = PDF::create([
+                'user_id' => $datos['user_id'],
+                'datos_form' => json_encode($datosForm),
+                'ruta_pdf' => $ruta,
+                'fecha_envio' => $datos['fecha_envio'] ?? now(),
+                'estado' => $datos['estado'],
+                'desactivado' => $datos['desactivado'] ?? false,
+            ]);
+    
+            return response()->json([
+                'data' => [
+                    'url' => Storage::url($ruta),
+                    'id' => $pdfModel->id
+                ]
+            ], 201);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al generar el PDF',
+                'error' => $e->getMessage(),
+            ], 400);
         }
     }
 
@@ -68,4 +97,5 @@ class PDFController extends BaseController
             return $this->sendError(['message' => $e->getMessage()], $e->status ?? 400);
         }
     }
+
 }

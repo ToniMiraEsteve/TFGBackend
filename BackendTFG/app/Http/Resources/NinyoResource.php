@@ -18,8 +18,6 @@ class NinyoResource extends JsonResource
             'id' => $this->id,
             'nombre' => $this->nombre,
             'curso' => $this->curso,
-            'ubicacion_sip' => $this->ubicacion_sip,
-            'ubicacion_fotos' => $this->ubicacion_fotos,
             'numero_contacto' => $this->numero_contacto,
             'nombre_padres' => $this->nombre_padres,
             'enfermedades_alergias' => $this->enfermedades_alergias,

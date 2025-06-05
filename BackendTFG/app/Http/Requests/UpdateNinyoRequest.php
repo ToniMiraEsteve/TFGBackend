@@ -24,8 +24,6 @@ class UpdateNinyoRequest extends FormRequest
         return [
             'nombre' => 'required|string|max:255',
             'curso' => 'required|string|max:100',
-            'ubicacion_sip' => 'nullable|string|max:255',
-            'ubicacion_fotos' => 'nullable|string|max:255',
             'numero_contacto' => 'nullable|string|max:20',
             'nombre_padres' => 'nullable|string|max:255',
             'enfermedades_alergias' => 'nullable|string',

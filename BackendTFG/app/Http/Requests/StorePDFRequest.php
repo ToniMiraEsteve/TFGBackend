@@ -23,8 +23,7 @@ class StorePDFRequest extends FormRequest
     {
         return [
             'user_id' => ['required', 'exists:users,id'],
-            'datos_form' => ['required', 'json'],
-            'ruta_pdf' => ['required', 'string'],
+            'datos_form' => ['required', 'array'],
             'fecha_envio' => ['nullable', 'date'],
             'estado' => ['required', 'string'],
             'desactivado' => ['boolean'],

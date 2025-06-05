@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateNinyoRequest;
 use App\Models\Ninyo;
 use Illuminate\Http\Request;
 use App\Http\Resources\NinyoResource;
+use Illuminate\Support\Facades\Storage;
 
 class NinyoController extends BaseController
 {
@@ -16,7 +17,8 @@ class NinyoController extends BaseController
      */
     public function index()
     {
-        return NinyoResource::collection(Ninyo::all());
+        $ninyosActivos = Ninyo::where('desactivado', 0)->get();
+        return NinyoResource::collection($ninyosActivos);
     }
 
     /**
@@ -26,8 +28,8 @@ class NinyoController extends BaseController
     {
         try{
             $validated = $request->validated();
-            $alert = Ninyo::create($validated);
-            return $this->sendResponse(new NinyoResource($alert), 201);
+            $ninyo = Ninyo::create($validated);
+            return $this->sendResponse(new NinyoResource($ninyo), 201);
         }catch (\Exception $e) {
             return $this->sendError(['message' => $e->getMessage()], $e->status ?? 400);
         }
@@ -63,7 +65,8 @@ class NinyoController extends BaseController
     public function destroy(Ninyo $ninyo)
     {
         try{
-            $ninyo->delete();
+            $ninyo->desactivado = 1;
+            $ninyo->save();
             return $this->sendResponse([], 204);
         }catch (\Exception $e) {
             return $this->sendError(['message' => $e->getMessage()], $e->status ?? 400);

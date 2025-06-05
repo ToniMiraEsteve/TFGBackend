@@ -13,8 +13,6 @@ class Ninyo extends Model
     protected $fillable = [
         'nombre',
         'curso',
-        'ubicacion_sip',
-        'ubicacion_fotos',
         'numero_contacto',
         'nombre_padres',
         'enfermedades_alergias',

@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('curso');
-            $table->string('ubicacion_sip');
-            $table->string('ubicacion_fotos');
             $table->string('numero_contacto');
             $table->string('nombre_padres');
             $table->text('enfermedades_alergias')->nullable();
