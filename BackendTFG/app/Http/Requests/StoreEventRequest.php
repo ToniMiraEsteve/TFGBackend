@@ -25,9 +25,9 @@ class StoreEventRequest extends FormRequest
             'titulo' => 'required|string|max:255',
             'mensaje' => 'required|string',
             'fecha' => 'required|date',
-            'hora_inicio' => 'required|date_format:H:i:s',
-            'hora_fin' => 'required|date_format:H:i:s|after:hora_inicio',
-            'rol_destinatario' => 'required|string|in:monitor,admin,usuario',
+            'hora_inicio' => 'required|date_format:H:i',
+            'hora_fin' => 'required|date_format:H:i|after:hora_inicio',
+            'rol_destinatario' => 'required|string|in:monitor,admin,usuario,junta,todos',
             'color' => ['required', 'regex:/^#([A-Fa-f0-9]{6})$/'],
         ];
     }

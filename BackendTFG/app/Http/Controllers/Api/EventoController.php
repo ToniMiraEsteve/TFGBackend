@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Evento;
 use App\Http\Resources\EventoResource;
+use App\Enums\Rol;
 
 class EventoController extends BaseController
 {
@@ -92,6 +93,12 @@ class EventoController extends BaseController
     public function destroy(Evento $evento)
     {
         try{
+
+            $usuario = auth()->user();
+            if (!in_array($usuario->rol, [Rol::Admin, Rol::Junta]) && $usuario->id !== $evento->user_id) {
+                return $this->sendError(['message' => 'No tienes permiso para eliminar este evento.'], 403);
+            }
+
             $evento->delete();
             return $this->sendResponse([], 204);
         }catch (\Exception $e) {
