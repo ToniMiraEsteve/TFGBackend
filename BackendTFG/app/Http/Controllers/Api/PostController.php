@@ -16,8 +16,11 @@ class PostController extends BaseController
      */
     public function index()
     {
-        return PostResource::collection(Post::all());
-
+        $posts = Post::with(['usuario', 'respuestas.usuario'])
+            ->where('desactivado', 0)
+            ->orderByDesc('fecha')
+            ->get();
+        return $this->sendResponse(PostResource::collection($posts), 'Posts recuperados con éxito.', 200);
     }
 
     /**
@@ -27,6 +30,10 @@ class PostController extends BaseController
     {
         try{
             $validated = $request->validated();
+            $validated['user_id'] = auth()->id();
+            $validated['fecha'] = now();
+            $validated['visivilidad'] = "activo";
+            $validated['desactivado'] = 0;
             $alert = Post::create($validated);
             return $this->sendResponse(new PostResource($alert), 201);
         }catch (\Exception $e) {
@@ -39,8 +46,8 @@ class PostController extends BaseController
      */
     public function show(Post $post)
     {
+        $post->load(['usuario', 'respuestas.usuario']);
         return $this->sendResponse(new PostResource($post), 'Post recuperado con éxito.', 200);
-
     }
 
     /**
@@ -64,7 +71,8 @@ class PostController extends BaseController
     public function destroy(Post $post)
     {
         try{
-            $post->delete();
+            $post->desactivado = 1;
+            $post->save();
             return $this->sendResponse([], 204);
         }catch (\Exception $e) {
             return $this->sendError(['message' => $e->getMessage()], $e->status ?? 400);

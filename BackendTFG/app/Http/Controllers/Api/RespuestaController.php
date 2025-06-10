@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateRespuestaRequest;
 use App\Models\Respuesta;
 use Illuminate\Http\Request;
 use App\Http\Resources\RespuestaResource;
+use App\Events\NuevaRespuestaEnviada;
 
 class RespuestaController extends BaseController
 {
@@ -27,8 +28,11 @@ class RespuestaController extends BaseController
     {
         try{
             $validated = $request->validated();
-            $alert = Respuesta::create($validated);
-            return $this->sendResponse(new RespuestaResource($alert), 201);
+            $validated['user_id'] = auth()->id();
+            $validated['fecha'] = now();
+            $validated['desactivado'] = 0;
+            $respuesta = Respuesta::create($validated);
+            return $this->sendResponse(new RespuestaResource($respuesta), 201);
         }catch (\Exception $e) {
             return $this->sendError(['message' => $e->getMessage()], $e->status ?? 400);
         }
@@ -68,5 +72,15 @@ class RespuestaController extends BaseController
         }catch (\Exception $e) {
             return $this->sendError(['message' => $e->getMessage()], $e->status ?? 400);
         }
+    }
+
+        public function getByPost($postId)
+    {
+        $respuestas = Respuesta::with('usuario')
+            ->where('post_id', $postId)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return $this->sendResponse(RespuestaResource::collection($respuestas),'Respuestas recuperadas con éxito.',200);
     }
 }

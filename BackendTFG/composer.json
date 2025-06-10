@@ -12,10 +12,12 @@
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.1",
         "guzzlehttp/guzzle": "^7.9",
+        "illuminate/broadcasting": "*",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.1",
         "laravel/socialite": "^5.20",
         "laravel/tinker": "^2.10.1",
+        "pusher/pusher-php-server": "^7.2",
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^2.6",
         "tymon/jwt-auth": "^2.2"

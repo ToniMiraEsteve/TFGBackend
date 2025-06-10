@@ -23,10 +23,7 @@ class StoreRespuestaRequest extends FormRequest
     {
         return [
             'post_id' => 'required|exists:posts,id',
-            'user_id' => 'required|exists:users,id',
             'contenido' => 'required|string|max:1000',
-            'fecha' => 'required|date',
-            'desactivado' => 'boolean',
         ];
     }
 }

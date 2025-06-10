@@ -17,4 +17,8 @@ Route::middleware(['auth:sanctum','api'])->group( function () {
     Route::apiResource('pdf', PDFController::class);
     Route::apiResource('post', PostController::class);
     Route::apiResource('respuesta', RespuestaController::class);
+
+    Route::get('/posts/{post}/respuestas', [RespuestaController::class, 'getByPost']);
 });
+
+Broadcast::routes();
