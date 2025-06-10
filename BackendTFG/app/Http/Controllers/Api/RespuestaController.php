@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateRespuestaRequest;
 use App\Models\Respuesta;
 use Illuminate\Http\Request;
 use App\Http\Resources\RespuestaResource;
-use App\Events\NuevaRespuestaEnviada;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class RespuestaController extends BaseController
 {
@@ -53,6 +53,7 @@ class RespuestaController extends BaseController
     {
         try{
             $validated = $request->validated();
+            $validated['user_id'] = auth()->id();
             $respuesta->update($validated);
 
             return $this->sendResponse(new RespuestaResource($respuesta), 200);
@@ -66,11 +67,14 @@ class RespuestaController extends BaseController
      */
     public function destroy(Respuesta $respuesta)
     {
-        try{
-            $respuesta->delete();
+        try {
+            $respuesta->desactivado = 1;
+            $respuesta->save();
             return $this->sendResponse([], 204);
-        }catch (\Exception $e) {
-            return $this->sendError(['message' => $e->getMessage()], $e->status ?? 400);
+        } catch (ModelNotFoundException $e) {
+            return $this->sendError(['message' => 'Respuesta no encontrada'], 404);
+        } catch (\Exception $e) {
+            return $this->sendError(['message' => $e->getMessage()], $e->getCode() ?: 400);
         }
     }
 
@@ -78,6 +82,7 @@ class RespuestaController extends BaseController
     {
         $respuestas = Respuesta::with('usuario')
             ->where('post_id', $postId)
+            ->where('desactivado', 0)
             ->orderBy('created_at', 'asc')
             ->get();
 

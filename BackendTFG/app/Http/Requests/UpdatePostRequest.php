@@ -22,10 +22,8 @@ class UpdatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'     => ['required', 'exists:users,id'],
             'fecha'       => ['required', 'date'],
             'contenido'   => ['required', 'string'],
-            'visibilidad' => ['required', 'in:publico,privado'],
             'desactivado' => ['boolean'],
         ];
     }

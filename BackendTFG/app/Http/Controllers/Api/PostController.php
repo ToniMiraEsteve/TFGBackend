@@ -57,6 +57,7 @@ class PostController extends BaseController
     {
         try{
             $validated = $request->validated();
+            $validated['user_id'] = auth()->id();
             $post->update($validated);
 
             return $this->sendResponse(new PostResource($post), 200);

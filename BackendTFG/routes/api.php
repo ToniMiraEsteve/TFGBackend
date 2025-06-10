@@ -19,5 +19,7 @@ Route::middleware(['auth:sanctum','api'])->group( function () {
     Route::apiResource('respuesta', RespuestaController::class);
 
     Route::get('/posts/{post}/respuestas', [RespuestaController::class, 'getByPost']);
+    Route::put('/respuestas/{respuesta}', [RespuestaController::class, 'update']);
+    Route::delete('/respuestas/{respuesta}', [RespuestaController::class, 'destroy']);
 });
 
