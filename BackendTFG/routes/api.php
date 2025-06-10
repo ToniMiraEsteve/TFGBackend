@@ -21,4 +21,3 @@ Route::middleware(['auth:sanctum','api'])->group( function () {
     Route::get('/posts/{post}/respuestas', [RespuestaController::class, 'getByPost']);
 });
 
-Broadcast::routes();
