@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Enums\Rol;
 
 class UpdateNinyoRequest extends FormRequest
 {
@@ -11,8 +12,8 @@ class UpdateNinyoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
-    }
+        $user = $this->user();
+        return in_array($user->rol, [Rol::Admin, Rol::Junta]);    }
 
     /**
      * Get the validation rules that apply to the request.

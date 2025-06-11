@@ -9,6 +9,7 @@ use App\Models\Ninyo;
 use Illuminate\Http\Request;
 use App\Http\Resources\NinyoResource;
 use Illuminate\Support\Facades\Storage;
+use App\Enums\Rol;
 
 class NinyoController extends BaseController
 {
@@ -65,6 +66,11 @@ class NinyoController extends BaseController
     public function destroy(Ninyo $ninyo)
     {
         try{
+
+            $usuario = auth()->user();
+            if (!in_array($usuario->rol, [Rol::Admin, Rol::Junta])) {
+                return $this->sendError(['message' => 'No tienes permiso para eliminar este evento.'], 403);
+            }
             $ninyo->desactivado = 1;
             $ninyo->save();
             return $this->sendResponse([], 204);

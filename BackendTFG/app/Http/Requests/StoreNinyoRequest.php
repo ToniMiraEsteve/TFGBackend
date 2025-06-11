@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Enums\Rol;
 
 class StoreNinyoRequest extends FormRequest
 {
@@ -11,7 +12,8 @@ class StoreNinyoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $user = $this->user();
+        return in_array($user->rol, [Rol::Admin, Rol::Junta]);
     }
 
     /**

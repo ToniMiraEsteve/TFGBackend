@@ -8,6 +8,7 @@ use App\Models\PDF;
 use App\Http\Resources\PDFResource;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf as DomPDF;
+use App\Enums\Rol;
 
 class PDFController extends BaseController
 {
@@ -91,6 +92,10 @@ class PDFController extends BaseController
     public function destroy(PDF $pdf)
     {
         try{
+            $usuario = auth()->user();
+            if (!in_array($usuario->rol, [Rol::Admin, Rol::Junta, Rol::Monitor])) {
+                return $this->sendError(['message' => 'No tienes permiso para eliminar este evento.'], 403);
+            }
             $pdf->delete();
             return $this->sendResponse([], 204);
         }catch (\Exception $e) {

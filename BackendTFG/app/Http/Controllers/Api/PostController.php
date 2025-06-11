@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
+use App\Enums\Rol;
 
 class PostController extends BaseController
 {
@@ -72,6 +73,10 @@ class PostController extends BaseController
     public function destroy(Post $post)
     {
         try{
+            $usuario = auth()->user();
+            if (!in_array($usuario->rol, [Rol::Admin, Rol::Junta, Rol::Monitor])) {
+                return $this->sendError(['message' => 'No tienes permiso para eliminar este evento.'], 403);
+            }
             $post->desactivado = 1;
             $post->save();
             return $this->sendResponse([], 204);

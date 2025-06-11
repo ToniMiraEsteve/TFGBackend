@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+use App\Enums\Rol;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,8 +12,8 @@ class UpdateEventRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
-    }
+        $user = $this->user();
+        return in_array($user->rol, [Rol::Admin, Rol::Monitor, Rol::Junta]);    }
 
     /**
      * Get the validation rules that apply to the request.

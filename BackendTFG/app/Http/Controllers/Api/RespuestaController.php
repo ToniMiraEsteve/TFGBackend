@@ -9,6 +9,7 @@ use App\Models\Respuesta;
 use Illuminate\Http\Request;
 use App\Http\Resources\RespuestaResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Enums\Rol;
 
 class RespuestaController extends BaseController
 {
@@ -68,6 +69,10 @@ class RespuestaController extends BaseController
     public function destroy(Respuesta $respuesta)
     {
         try {
+            $usuario = auth()->user();
+            if (!in_array($usuario->rol, [Rol::Admin, Rol::Junta])) {
+                return $this->sendError(['message' => 'No tienes permiso para eliminar este evento.'], 403);
+            }
             $respuesta->desactivado = 1;
             $respuesta->save();
             return $this->sendResponse([], 204);
