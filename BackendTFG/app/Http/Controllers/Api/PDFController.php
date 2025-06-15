@@ -32,7 +32,7 @@ class PDFController extends BaseController
             $pdfHtml = DomPDF::loadView('pdf.pdf_form', $datosForm);
     
             $nombreArchivo = 'pdf_' . uniqid() . '.pdf';
-            $ruta = 'public/pdfs/' . $nombreArchivo;
+            $ruta = 'pdfs/' . $nombreArchivo;
     
             Storage::disk('public')->put($ruta, $pdfHtml->output());
     
