@@ -32,12 +32,10 @@ class PDFController extends BaseController
             $pdfHtml = DomPDF::loadView('pdf.pdf_form', $datosForm);
     
             $nombreArchivo = 'pdf_' . uniqid() . '.pdf';
-            $ruta = 'pdfs/' . $nombreArchivo;
+            $ruta = 'public/pdfs/' . $nombreArchivo;
     
-            // Guardar archivo físico
             Storage::disk('public')->put($ruta, $pdfHtml->output());
     
-            // Guardar en base de datos
             $pdfModel = PDF::create([
                 'user_id' => $datos['user_id'],
                 'datos_form' => json_encode($datosForm),
