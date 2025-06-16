@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             PDFSeeder::class,
             PostSeeder::class,
             RespuestaSeeder::class,
-            MensajeWhatsappSeeder::class,
             EventoSeeder::class,
         ]);
     }
